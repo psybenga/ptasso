@@ -35,12 +35,12 @@
 # ConvertTo-SecureString {Password} -AsPlainText -Force | ConvertFrom-SecureString | Out-File C:\Scripts\Onprem_Encrypted_Password.txt
 
 # Change the Cloud User to be the Office365 account for your tenant with global adminsSS
-$CloudUser = 'admin@acmeincltd.onmicrosoft.com'
+$CloudUser = 'admin@acmeincgroup.onmicrosoft.com'
 $CloudEncrypted = Get-Content "C:\Scripts\Cloud_Encrypted_Password.txt" | ConvertTo-SecureString 
 $CloudCred = New-Object System.Management.Automation.PsCredential($CloudUser, $CloudEncrypted) 
 $OnpremEncrypted = Get-Content "C:\Scripts\Onprem_Encrypted_Password.txt" | ConvertTo-SecureString 
 # On-Premise Account - must not be a domain admin ! Only a user account with write and reset password permissions for the AZUREADSSOACC computer Object. 
-$OnpremUser1 = 'int\PTA_SSO'
+$OnpremUser1 = 'ACMEGROUP\PTA_SSO'
 $OnpremCred1 = New-Object System.Management.Automation.PsCredential($OnpremUser1, $OnpremEncrypted)
 Import-Module 'C:\Program Files\Microsoft Azure Active Directory Connect\AzureADSSO.psd1'
 New-AzureADSSOAuthenticationContext -CloudCredentials $CloudCred
@@ -49,7 +49,7 @@ Update-AzureADSSOForest -OnPremCredentials $OnpremCred1
 # 2nd domain ---
 # The following can be removed or deleted if you do not have multiple domains with SSO enabled
 # On-Premise Account - must not be a domain admin ! Only a user account with write and reset password permissions for the AZUREADSSOACC computer Object. 
-$OnpremUser2 = 'SUL\PTA_SSO'
+$OnpremUser2 = 'ACMEHQ\PTA_SSO'
 $OnpremCred2 = New-Object System.Management.Automation.PsCredential($OnpremUser2, $OnpremEncrypted)
 Import-Module 'C:\Program Files\Microsoft Azure Active Directory Connect\AzureADSSO.psd1'
 New-AzureADSSOAuthenticationContext -CloudCredentials $CloudCred
@@ -58,7 +58,7 @@ Update-AzureADSSOForest -OnPremCredentials $OnpremCred2
 # 3rd domain ---
 # The following can be removed or deleted if you do not have multiple domains with SSO enabled
 # On-Premise Account - must not be a domain admin ! Only a user account with write and reset password permissions for the AZUREADSSOACC computer Object. 
-$OnpremUser3 = 'REBELGROUP\PTA_SSO' 
+$OnpremUser3 = 'ACMENQ\PTA_SSO' 
 $OnpremCred3 = New-Object System.Management.Automation.PsCredential($OnpremUser3, $OnpremEncrypted) 
 Import-Module 'C:\Program Files\Microsoft Azure Active Directory Connect\AzureADSSO.psd1'  
 New-AzureADSSOAuthenticationContext -CloudCredentials $CloudCred 
